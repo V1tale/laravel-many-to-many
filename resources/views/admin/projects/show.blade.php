@@ -4,10 +4,10 @@
     <div class="container">
         </h4>
         <div class="text-start mt-4">
-            <a class="btn btn-primary" href="{{ route('admin.projects.index') }}">
+            <a class="btn btn-dark" href="{{ route('admin.projects.index') }}">
                 <i class="fa-solid fa-arrow-left"></i>
             </a>
-            <a class="btn btn-primary" href="{{ route('admin.projects.edit', $project->slug) }}">
+            <a class="btn btn-dark" href="{{ route('admin.projects.edit', $project->slug) }}">
                 <i class="fa-solid fa-pen-to-square"></i>
             </a>
         </div>
@@ -15,6 +15,16 @@
             {{ $project->type ? $project->type->name : 'Nessuna categoria selezionata' }}
             {{-- {{ $post->category?->name }} --}}
             <h2 class="text-center">{{ $project->title }}</h2>
+            <div class="tags">
+
+                <h5>Tecnologie utilizzate:
+                    @forelse ($project->technologies as $tech)
+                        <span class="text-primary">{{ $tech->name }}</span>
+                    @empty
+                        <span>Nessun tag</span>
+                    @endforelse
+                </h5>
+            </div>
             <div class="text-center">
                 @if ($project->image)
                     <img src="{{ asset('storage/' . $project->image) }}" alt="{{ 'immagine di ' . $project->image }}">

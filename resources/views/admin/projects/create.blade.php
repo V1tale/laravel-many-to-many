@@ -32,6 +32,17 @@
                         </select>
                     </div>
                     <div class="form-group mb-3">
+                        <h4>Inserisci le tecnologie utilizzate</h4>
+                        @foreach ($technologies as $tech)
+                            <div class="form-check">
+                                <input type="checkbox" name="technologies[]" id="tech-{{ $tech->id }}"
+                                    class="form-check-input" value="{{ $tech->id }}">
+                                <label for="tech-{{ $tech->id }}" class="form-check-label">{{ $tech->name }}</label>
+                            </div>
+                        @endforeach
+
+                    </div>
+                    <div class="form-group mb-3">
                         <label for="image">Immagine</label>
                         <input type="file" name="image" id="image"
                             class="form-control @error('image')
