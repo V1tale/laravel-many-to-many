@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Models\Project;
+use App\Models\Technology;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Type;
@@ -32,7 +33,8 @@ class ProjectController extends Controller
     public function create()
     {
         $types = Type::all();
-        return view('admin.projects.create', compact('types'));
+        $technologies = Technology::all();
+        return view('admin.posts.create', compact('types', 'technologies'));
     }
 
     /**
@@ -57,6 +59,9 @@ class ProjectController extends Controller
         }
         $newProject->type_id = $form_data['type_id'];
         $newProject->save();
+        if ($request->has('technologies')) {
+            $newProject->technologies()->attach($request->technologies);
+        }
         // if ($request->has('type_id')) {
         //     $type = Type::find('type_id');
         //     if ($type) {
@@ -66,7 +71,6 @@ class ProjectController extends Controller
         // dd($form_data);
         return redirect()->route('admin.projects.show', $newProject->slug);
     }
-
     /**
      * Display the specified resource.
      *
@@ -87,7 +91,8 @@ class ProjectController extends Controller
     public function edit(Project $project)
     {
         $types = Type::all();
-        return view('admin.projects.edit', compact('project', 'types'));
+        $technologies = Technology::all();
+        return view('admin.projects.edit', compact('project', 'types', 'technologies'));
     }
 
     /**
@@ -109,6 +114,12 @@ class ProjectController extends Controller
             $form_data['image'] = $path;
         }
         $project->update($form_data);
+        if ($request->has('technologies')) {
+            $project->technologies()->sync($request->technologies);
+        } else {
+            // $post->tags()->sync([]);
+            $project->tags()->detach();
+        }
         return redirect()->route('admin.projects.index')->with('message', "Il progetto $project->title è stato aggiornato");
     }
 
@@ -122,6 +133,7 @@ class ProjectController extends Controller
     {
         !is_null($project->image) && Storage::delete($project->image);
         // Storage::delete($project->image);
+        $project->technologies()->detach();
         $project->delete();
         return redirect()->route('admin.projects.index')->with('message', "'$project->title' è stato cancellato");
     }
