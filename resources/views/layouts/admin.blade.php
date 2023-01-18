@@ -71,6 +71,13 @@
                                 </a>
                             </li>
                             <li class="nav-item">
+                                <a class="nav-link {{ Route::currentRouteName() === 'admin.types.index' ? 'nav-link-selected' : '' }}"
+                                    href="{{ route('admin.types.index') }}">
+                                    <i class="fa-solid fa-folder"></i>
+                                    Tipologie
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link {{ Route::currentRouteName() == 'admin.projects.create' ? 'nav-link-selected' : '' }}"
                                     href="{{ route('admin.projects.create') }}">
                                     <i class="fa-solid fa-square-plus"></i> Nuovo Progetto

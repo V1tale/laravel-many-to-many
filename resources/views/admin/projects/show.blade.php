@@ -4,7 +4,7 @@
     <div class="container">
         </h4>
         <div class="text-start mt-4">
-            <a class="btn btn-dark" href="{{ route('admin.projects.index') }}">
+            <a class="btn btn-dark" href="{{ url()->previous() }}">
                 <i class="fa-solid fa-arrow-left"></i>
             </a>
             <a class="btn btn-dark" href="{{ route('admin.projects.edit', $project->slug) }}">
